@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Select Resume Template</title>
+    <style>
+      body {
+        font-family: Arial;
+        background: #f5f5f5;
+      }
+      .container {
+        width: 700px;
+        margin: 50px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 6px;
+      }
+      .template {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px 0;
+      }
+      a {
+        display: inline-block;
+        padding: 8px 15px;
+        background: #007bff;
+        color: white;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+ <div class="container">  
+    <a href="/admin/resumes">← Back to Resumes</a>
+    <h2>Select Resume Template</h2>
+
+    {% for t in templates %}
+        <div class="template">
+            <h3>{{ t.name }}</h3>
+            <a href="/admin/download-pdf/{{ resume_id }}?template={{ t.file_name | url_encode }}">
+                Download PDF
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Resume{% endblock %}
+
+{% block styles %}
+<style>
+    body {
+        min-height: 100vh;
+        
+    }
+
+    .form-container {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        padding: 50px 40px;
+        max-width: 700px;
+        margin: 60px auto;
+    }
+    
+
+    .form-title {
+       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text; /* for Firefox */
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .form-control {
+        padding: 14px;
+        border-radius: 10px;
+        border: 2px solid #e0e0e0;
+        
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        padding: 14px;
+        border-radius: 10px;
+        font-weight: 600;
+        width: 100%;
+        color: white;
+    }
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <div class="text-center mb-4">
+        <i class="fas fa-file-alt fa-3x text-primary"></i>
+    </div>
+
+    <h2 class="form-title">Create Resume</h2>
+
+    <form method="post">
+
+        <!-- Personal Info -->
+    
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-user"></i> Full Name</label>
+            <input type="text" class="form-control" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" class="form-control" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-phone"></i> Phone</label>
+            <input type="text" class="form-control" name="phone" placeholder="+1 234 567 890">
+        </div>
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-map-marker-alt"></i> Address</label>
+            <input type="text" class="form-control" name="address" placeholder="City, Country">
+        </div>
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-globe"></i> Website / Portfolio</label>
+            <input type="url" class="form-control" name="website">
+        </div>
+
+        <!-- Professional Summary -->
+        <h4 class="section-title">Professional Summary</h4>
+        <div class="mb-3">
+            <textarea class="form-control" name="summary" rows="4" placeholder="Write a short summary about yourself"></textarea>
+        </div>
+
+        <!-- Education -->
+        <h4 class="section-title">Education</h4>
+        <div class="mb-3">
+            <input type="text" class="form-control mb-2" name="edu_degree[]" placeholder="Degree (e.g., B.Sc. in Computer Science)">
+            <input type="text" class="form-control mb-2" name="edu_institute[]" placeholder="Institute / University">
+            <input type="text" class="form-control mb-2" name="edu_year[]" placeholder="Year (e.g., 2018-2022)">
+        </div>
+
+        <!-- Experience -->
+        <h4 class="section-title">Experience</h4>
+        <div class="mb-3">
+            <input type="text" class="form-control mb-2" name="exp_job[]" placeholder="Job Title">
+            <input type="text" class="form-control mb-2" name="exp_company[]" placeholder="Company Name">
+            <input type="text" class="form-control mb-2" name="exp_duration[]" placeholder="Duration (e.g., 2020-2022)">
+            <textarea class="form-control mb-2" name="exp_desc[]" rows="2" placeholder="Job Description / Responsibilities"></textarea>
+        </div>
+
+        <!-- Skills -->
+        <h4 class="section-title">Skills</h4>
+        <div class="mb-3">
+            <textarea class="form-control" name="skills" rows="3" placeholder="List your skills (comma separated)"></textarea>
+        </div>
+
+        <!-- Languages -->
+        <h4 class="section-title">Languages</h4>
+        <div class="mb-3">
+            <input type="text" class="form-control mb-2" name="lang_name[]" placeholder="Language (e.g., English)">
+            <input type="text" class="form-control mb-2" name="lang_level[]" placeholder="Level (e.g., Fluent / Intermediate)">
+        </div>
+
+        <!-- Certifications -->
+        <h4 class="section-title">Certifications</h4>
+        <div class="mb-3">
+            <input type="text" class="form-control mb-2" name="cert_name[]" placeholder="Certification Name">
+            <input type="text" class="form-control mb-2" name="cert_org[]" placeholder="Issuing Organization">
+            <input type="text" class="form-control mb-2" name="cert_year[]" placeholder="Year">
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-submit mt-3">
+            <i class="fas fa-paper-plane"></i> Submit Resume
+        </button>
+
+    </form>
+</div>
+
+{% endblock %}

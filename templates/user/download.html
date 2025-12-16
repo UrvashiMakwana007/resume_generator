@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Download Resume</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="mb-3">Your Resume Details</h2>
+
+    <p><strong>Name:</strong> {{ resume.name }}</p>
+    <p><strong>Email:</strong> {{ resume.email }}</p>
+    <p><strong>Skills:</strong> {{ resume.skills }}</p>
+
+    <hr>
+
+    <form method="get" action="/download-pdf/{{ resume_id }}">
+        <div class="mb-3">
+            <label class="form-label">Select Resume Template</label>
+            <select name="template" class="form-select" required>
+                {% for t in templates %}
+                    <option value="{{ t }}">{{ t }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button class="btn btn-primary">
+            Download PDF
+        </button>
+    </form>
+</div>
+
+</body>
+</html>
