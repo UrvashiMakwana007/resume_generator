@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{{ resume.name }} - Resume</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: #f5f5f5;
+    padding: 30px 20px;
+    color: #2c3e50;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 850px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.header {
+    background: #2c3e50;
+    color: white;
+    padding: 40px 50px;
+    border-bottom: 4px solid #3498db;
+    text-align: center;
+}
+
+.header .name {
+    font-size: 36px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.header .tagline {
+    font-size: 16px;
+    color: #ecf0f1;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.contact-info {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    font-size: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.contact-info span {
+    color: #bdc3c7;
+}
+
+.main-content {
+    padding: 40px 50px;
+}
+
+.section {
+    margin-bottom: 35px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #3498db;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.summary {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.8;
+}
+
+.entry {
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.entry:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.entry-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.entry-meta {
+    font-size: 14px;
+    color: #7f8c8d;
+    font-weight: 500;
+}
+
+.entry-subtitle {
+    font-size: 15px;
+    color: #3498db;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.entry-description {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.7;
+}
+
+.entry-description ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.entry-description li {
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.skill-category {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 4px;
+    border-left: 3px solid #3498db;
+}
+
+.skill-category-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.skill-list .badge {
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 30px 25px;
+    }
+    
+    .main-content {
+        padding: 30px 25px;
+    }
+    
+    .entry-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+    
+    .container {
+        box-shadow: none;
+    }
+    
+    .section {
+        page-break-inside: avoid;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="name">{{ resume.name }}</div>
+        <div class="tagline">{{ resume.professional_title }}</div>
+        <div class="contact-info">
+            <span>{{ resume.email }}</span>
+            <span>{{ resume.phone }}</span>
+            <span>{{ resume.location }}</span>
+            <span>{{ resume.linkedin }}</span>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <!-- Professional Summary -->
+        <div class="section">
+            <div class="section-title">Professional Summary</div>
+            <div class="summary">{{ resume.professional_summary }}</div>
+        </div>
+        
+        <!-- Experience -->
+        <div class="section">
+            <div class="section-title">Professional Experience</div>
+            {% for exp in resume.experience %}
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">{{ exp.job_title }}</div>
+                    <div class="entry-meta">{{ exp.dates }}</div>
+                </div>
+                <div class="entry-subtitle">{{ exp.company }} • {{ exp.location }}</div>
+                <div class="entry-description">
+                    <ul>
+                        {% for achievement in exp.achievements %}
+                        <li>{{ achievement }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Skills -->
+        <div class="section">
+            <div class="section-title">Core Competencies</div>
+            <div class="skills-grid">
+                {% for category, skills_list in resume.skills.items() %}
+                <div class="skill-category">
+                    <div class="skill-category-title">{{ category }}</div>
+                    <div class="skill-list">
+                        {% for skill in skills_list %}
+                        <span class="badge">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- Education -->
+        <div class="section">
+            <div class="section-title">Education & Certifications</div>
+            {% for edu in resume.education %}
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">{{ edu.degree }}</div>
+                    <div class="entry-meta">{{ edu.graduation_year }}</div>
+                </div>
+                <div class="entry-subtitle">{{ edu.university }}</div>
+                <div class="entry-description">{{ edu.details }}</div>
+            </div>
+            {% endfor %}
+            
+            <div class="entry">
+                <div class="entry-title">Professional Certifications</div>
+                <div class="entry-description" style="margin-top: 10px;">
+                    {% for cert in resume.certifications %}
+                    <span class="badge">{{ cert }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Key Achievements -->
+        <div class="section">
+            <div class="section-title">Key Achievements</div>
+            <div class="highlight">
+                {% for achievement in resume.key_achievements %}
+                <div class="highlight-item">• {{ achievement }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+</body>
+</html>

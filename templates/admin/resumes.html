@@ -1,132 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Submitted Resumes</title>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        padding: 40px 20px;
-      }
-      .container {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        padding: 40px;
-        max-width: 1000px;
-      }
-      .page-title {
-        color: #667eea;
-        font-weight: 700;
-        margin-bottom: 30px;
-        font-size: 2rem;
-      }
-      .table {
-        border-radius: 10px;
-        overflow: hidden;
-      }
-      .table thead {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-      }
-      .table thead th {
-        border: none;
-        padding: 15px;
-        font-weight: 600;
-      }
-      .table tbody tr {
-        transition: background-color 0.3s ease;
-      }
-      .table tbody tr:hover {
-        background-color: #f8f9fa;
-      }
-      .table tbody td {
-        padding: 15px;
-        vertical-align: middle;
-      }
-      .btn-generate {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border: none;
-        padding: 8px 20px;
-        border-radius: 8px;
-        color: white;
-        text-decoration: none;
-        font-weight: 600;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        display: inline-block;
-      }
-      .btn-generate:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        color: white;
-      }
-      .back-link {
-        color: #667eea;
-        text-decoration: none;
-        font-weight: 600;
-        display: inline-block;
-        margin-bottom: 20px;
-      }
-      .back-link:hover {
-        color: #764ba2;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <a href="/admin/dashboard" class="back-link">
-        <i class="fas fa-arrow-left"></i> Back to Dashboard
-      </a>
+<head>
+  <meta charset="UTF-8" />
+  <title>Submitted Resumes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-      <h2 class="page-title">
-        <i class="fas fa-file-alt"></i> Submitted Resumes
-      </h2>
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-      <div class="table-responsive">
-     <table class="table table-hover">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Skills</th>
-      <th>Education</th>
-      <th>Experience</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for r in resumes %}
-    <tr>
-      <td>{{ r.name }}</td>
-      <td>{{ r.email }}</td>
-      <td>{{ r.phone or '-' }}</td>
-      <td>{{ r.skills or '-' }}</td>
-      <td>{{ r.education or '-' }}</td>
-      <td>{{ r.experience or '-' }}</td>
-      <td>
-        <a href="/admin/select-template/{{ r.id }}" class="btn-generate">
-          <i class="fas fa-file-pdf"></i> Generate PDF
-        </a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
 
-      </div>
-    </div>
+    .container {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      padding: 40px;
+      max-width: 1100px;
+    }
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-  </body>
+    .page-title {
+      color: #667eea;
+      font-weight: 700;
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+
+    .table {
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .table thead {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+    }
+
+    .table thead th {
+      border: none;
+      padding: 15px;
+      font-weight: 600;
+    }
+
+    .table tbody td {
+      padding: 15px;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f8f9fa;
+    }
+
+    .btn-generate {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-generate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(102,126,234,0.4);
+      color: #fff;
+    }
+
+    .back-link {
+      color: #667eea;
+      font-weight: 600;
+      text-decoration: none;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .back-link:hover {
+      color: #764ba2;
+    }
+
+    small {
+      color: #555;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <a href="/admin/dashboard" class="back-link">
+    <i class="fas fa-arrow-left"></i> Back to Dashboard
+  </a>
+
+  <h2 class="page-title">
+    <i class="fas fa-file-alt"></i> Submitted Resumes
+  </h2>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Skills</th>
+          <th>Education</th>
+          <th>Experience</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for r in resumes %}
+        <tr>
+          <td><strong>{{ r.name }}</strong></td>
+          <td>{{ r.email }}</td>
+          <td>{{ r.phone or '-' }}</td>
+          <td>{{ r.skills or '-' }}</td>
+
+          <!-- Education -->
+          <td>
+            {% if r.education %}
+              {% for e in r.education %}
+                <strong>{{ e.degree }}</strong><br>
+                {{ e.institute }} ({{ e.year }})<br><br>
+              {% endfor %}
+            {% else %}
+              -
+            {% endif %}
+          </td>
+
+          <!-- Experience -->
+          <td>
+            {% if r.experience %}
+              {% for ex in r.experience %}
+                <strong>{{ ex.job }}</strong> – {{ ex.company }}<br>
+                {{ ex.duration }}<br>
+                <small>{{ ex.desc }}</small><br><br>
+              {% endfor %}
+            {% else %}
+              -
+            {% endif %}
+          </td>
+
+          <td>
+            <a href="/admin/select-template/{{ r.id }}" class="btn-generate">
+              <i class="fas fa-file-pdf"></i> Generate PDF
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

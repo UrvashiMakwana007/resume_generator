@@ -1,72 +1,114 @@
 <style>
-  /* Gradient text */
   body {
-    padding-top: 50px; /* Adjust based on navbar height */
+    padding-top: 70px;
   }
+
   .text {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  /* Navbar shadow when scrolling */
   .navbar-scrolled {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     transition: box-shadow 0.3s ease, background-color 0.3s ease;
-    background-color: #fff; /* Optional: change background when scrolled */
+    background-color: #fff;
   }
 
-  /* Add spacing between navbar items */
   .navbar-nav .nav-item {
     margin-left: 15px;
     margin-right: 15px;
   }
 
-  /* Optional: Gradient icon inside nav */
-  .navbar-nav .nav-link i {
-    margin-right: 5px;
+  .dropdown-menu {
+    border-radius: 12px;
+    padding: 10px;
+    min-width: 220px;
+  }
+
+  .dropdown-item {
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: 500;
+  }
+
+  .dropdown-item:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
   }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3">
   <div class="container">
-    <a class="navbar-brand fw-bold text" href="#">
-      <i class="fas fa-file-alt text"></i> Resume Generator
+    <a class="navbar-brand fw-bold text" href="/">
+      <i class="fas fa-file-alt"></i> Resume Generator
     </a>
+
     <button
       class="navbar-toggler"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
+
+        <!-- Home -->
         <li class="nav-item">
-          <a class="nav-link active text" href="#"
-            ><i class="fas fa-home text"></i> Home</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text" href="#">
-            <i class="fas fa-folder-open text"></i> Templates
+          <a class="nav-link text" href="/">
+            <i class="fas fa-home"></i> Home
           </a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link text" href="#"
-            ><i class="fas fa-file-alt text"></i> Create Resume</a
+        <!-- Templates Dropdown -->
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text"
+            href="#"
+            id="templatesDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
           >
+            <i class="fas fa-folder-open"></i> Templates
+          </a>
+
+          <ul class="dropdown-menu shadow" aria-labelledby="templatesDropdown">
+            <li>
+              <a class="dropdown-item" href="/template/classic">
+                📄 Classic Resume
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/template/modern">
+                ✨ Modern Resume
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/template/professional">
+                💼 Professional Resume
+              </a>
+            </li>
+          </ul>
         </li>
+
+        <!-- Create Resume -->
         <li class="nav-item">
-          <a class="nav-link text" href="#"
-            ><i class="fas fa-sign-in-alt text"></i> Login</a
-          >
+          <a class="nav-link text" href="/create-resume">
+            <i class="fas fa-file-alt"></i> Create Resume
+          </a>
         </li>
+
+        <!-- Login -->
+        <li class="nav-item">
+          <a class="nav-link text" href="/login">
+            <i class="fas fa-sign-in-alt"></i> Login
+          </a>
+        </li>
+
       </ul>
     </div>
   </div>

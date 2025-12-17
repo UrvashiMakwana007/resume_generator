@@ -264,6 +264,220 @@ def download_pdf(id):
     return response
 
 # -----------------------------
+# Templates Route
+# -----------------------------
+
+@app.route('/template/<template_name>')
+def preview_template(template_name):
+    # Secure filename
+    filename = f"{template_name}.html"
+
+    template_path = os.path.join(
+        'static',
+        'templates_files',
+        filename
+    )
+
+    if not os.path.exists(template_path):
+        return "Template not found", 404
+
+    with open(template_path, encoding='utf-8') as f:
+        html = f.read()
+
+    # Dummy preview data
+    resume = {
+        "name": "John Doe",
+        "email": "john@example.com",
+        "phone": "+91 98765 43210",
+        "address": "Delhi, India",
+        "website": "www.johndoe.com",
+        "summary": "Passionate software developer with strong backend skills.",
+        "skills": "Python, Flask, HTML, CSS, JavaScript",
+        "education": [
+            {"degree": "B.Tech", "institute": "ABC University", "year": "2019-2023"}
+        ],
+        "experience": [
+            {
+                "job": "Backend Developer",
+                "company": "XYZ Pvt Ltd",
+                "duration": "2023-Present",
+                "description": "Worked on Flask APIs and MySQL"
+            }
+        ],
+        "languages": [
+            {"language": "English", "level": "Fluent"},
+            {"language": "Hindi", "level": "Native"}
+        ],
+        "certifications": [
+            {"name": "Python Developer", "organization": "Coursera", "year": "2023"}
+        ]
+    }
+
+    return render_template_string(html, resume=resume)
+
+# -----------------------------
+# Admin Side
+# -----------------------------
+
+# -----------------------------
+# Login Page
+# -----------------------------
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # SIMPLE ADMIN CREDENTIALS (you can move to DB later)
+        if username == 'admin' and password == 'admin123':
+            session['admin'] = True
+            return redirect('/admin/dashboard')
+        else:
+            return render_template('admin/login.html', error="Invalid credentials")
+
+    return render_template('admin/login.html')
+
+# -----------------------------
+# Dashboard Page
+# -----------------------------
+
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    if not session.get('admin'):
+        return redirect('/admin/login')
+
+    return render_template('admin/dashboard.html')
+
+
+# -----------------------------
+# View Resume Page
+# -----------------------------
+
+@app.route('/admin/resumes')
+def admin_resumes():
+    if not session.get('admin'):
+        return redirect('/admin/login')
+
+    con = get_db()
+    cur = con.cursor(dictionary=True)
+    cur.execute("SELECT * FROM resumes ORDER BY id DESC")
+    resumes = cur.fetchall()
+    cur.close()
+    con.close()
+
+    # Convert JSON fields to Python objects
+    for r in resumes:
+        r['education'] = json.loads(r['education']) if r['education'] else []
+        r['experience'] = json.loads(r['experience']) if r['experience'] else []
+
+    return render_template('admin/resumes.html', resumes=resumes)
+
+
+
+# -----------------------------
+# View single Resume Page
+# -----------------------------
+
+@app.route('/admin/resume/<int:id>')
+def admin_view_resume(id):
+    if not session.get('admin'):
+        return redirect('/admin/login')
+
+    con = get_db()
+    cur = con.cursor(dictionary=True)
+    cur.execute("SELECT * FROM resumes WHERE id=%s", (id,))
+    resume = cur.fetchone()
+    cur.close()
+    con.close()
+
+    if not resume:
+        return "Resume not found", 404
+
+    resume['education'] = json.loads(resume['education'])
+    resume['experience'] = json.loads(resume['experience'])
+    resume['languages'] = json.loads(resume['languages'])
+    resume['certifications'] = json.loads(resume['certifications'])
+
+    return render_template(
+        'admin/view_resume.html',
+        resume=resume
+    )
+
+# -----------------------------
+# Delete Resume Page
+# -----------------------------
+
+@app.route('/admin/delete/<int:id>')
+def admin_delete_resume(id):
+    if not session.get('admin'):
+        return redirect('/admin/login')
+
+    con = get_db()
+    cur = con.cursor()
+    cur.execute("DELETE FROM resumes WHERE id=%s", (id,))
+    con.commit()
+    cur.close()
+    con.close()
+
+    return redirect('/admin/resumes')
+
+# -----------------------------
+#  Manage Templates
+# -----------------------------
+
+
+TEMPLATE_DIR = "static/templates_files"
+
+@app.route('/admin/templates')
+def manage_templates():
+    templates = []
+
+    for file in os.listdir(TEMPLATE_DIR):
+        if file.endswith('.html'):
+            templates.append(file)
+
+    return render_template(
+        'admin/manage_templates.html',
+        templates=templates
+    )
+    
+
+# -----------------------------
+#  Add Upload Template
+# -----------------------------
+    
+@app.route('/admin/templates/upload', methods=['GET', 'POST'])
+def upload_template():
+    if request.method == 'POST':
+        file = request.files['template']
+
+        if file.filename.endswith('.html'):
+            file.save(os.path.join(TEMPLATE_DIR, file.filename))
+
+        return redirect('/admin/templates')
+
+    return '''
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="template">
+        <button>Upload</button>
+    </form>
+    '''
+
+
+# -----------------------------
+# Admin Logout  
+# -----------------------------
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('admin', None)
+    return redirect('/admin/login')
+
+
+
+
+# -----------------------------
 # Run App
 # -----------------------------
 if __name__ == '__main__':

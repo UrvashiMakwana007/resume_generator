@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{{ resume.name }} - Resume</title>
+<style>
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 40px;
+    background: #fff;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #1a1a1a;
+    letter-spacing: 1px;
+}
+
+.contact {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: #666;
+}
+
+.contact span {
+    margin: 0 15px;
+}
+
+hr {
+    border: none;
+    border-top: 2px solid #333;
+    margin: 30px 0;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.section-content {
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+.item {
+    margin-bottom: 15px;
+}
+
+.item-title {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.item-subtitle {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+ul {
+    margin: 5px 0;
+    padding-left: 20px;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 20px;
+    }
+}
+</style>
+</head>
+<body>
+
+<h1>{{ resume.name }}</h1>
+<div class="contact">
+    <span>{{ resume.email }}</span>
+    <span>|</span>
+    <span>{{ resume.phone }}</span>
+    <span>|</span>
+    <span>{{ resume.address }}</span>
+    {% if resume.website %}
+    <span>|</span>
+    <span>{{ resume.website }}</span>
+    {% endif %}
+</div>
+
+<hr>
+
+<div class="section">
+    <h2>Professional Summary</h2>
+    <div class="section-content">
+        <p>{{ resume.summary }}</p>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Experience</h2>
+    <div class="section-content">
+        {% for exp in resume.experience %}
+        <div class="item">
+            <div class="item-title">{{ exp.job }} – {{ exp.company }}</div>
+            <div class="item-subtitle">{{ exp.duration }}</div>
+            <ul>
+                {% for desc in exp.description.split('\n') %}
+                <li>{{ desc }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="section">
+    <h2>Education</h2>
+    <div class="section-content">
+        {% for edu in resume.education %}
+        <div class="item">
+            <div class="item-title">{{ edu.degree }}</div>
+            <div class="item-subtitle">{{ edu.institute }} | {{ edu.year }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="section">
+    <h2>Skills</h2>
+    <div class="section-content">
+        <ul>
+        {% for skill in resume.skills.split(',') %}
+            <li>{{ skill.strip() }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Languages</h2>
+    <div class="section-content">
+        {% for lang in resume.languages %}
+        <p>{{ lang.language }} – {{ lang.level }}</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="section">
+    <h2>Certifications</h2>
+    <div class="section-content">
+        {% for cert in resume.certifications %}
+        <p>
+            <strong>{{ cert.name }}</strong><br>
+            {{ cert.organization }} | {{ cert.year }}
+        </p>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
