@@ -5,31 +5,92 @@
     <title>Download Resume</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
 
-<div class="container mt-5">
-    <h2 class="mb-3">Your Resume Details</h2>
+<div class="container mt-5 mb-5">
+    <div class="card shadow-lg p-4">
+        <h2 class="mb-3 text-center">Your Resume Details</h2>
 
-    <p><strong>Name:</strong> {{ resume.name }}</p>
-    <p><strong>Email:</strong> {{ resume.email }}</p>
-    <p><strong>Skills:</strong> {{ resume.skills }}</p>
+        <hr>
 
-    <hr>
+        <p><strong>Name:</strong> {{ resume.name }}</p>
+        <p><strong>Email:</strong> {{ resume.email }}</p>
+        <p><strong>Phone:</strong> {{ resume.phone }}</p>
+        <p><strong>Address:</strong> {{ resume.address }}</p>
+        <p><strong>Website:</strong> {{ resume.website }}</p>
 
-    <form method="get" action="/download-pdf/{{ resume_id }}">
-        <div class="mb-3">
-            <label class="form-label">Select Resume Template</label>
-            <select name="template" class="form-select" required>
-                {% for t in templates %}
-                    <option value="{{ t }}">{{ t }}</option>
-                {% endfor %}
-            </select>
-        </div>
+        <hr>
 
-        <button class="btn btn-primary">
-            Download PDF
-        </button>
-    </form>
+        <h5>Professional Summary</h5>
+        <p>{{ resume.summary }}</p>
+
+        <hr>
+
+        <h5>Skills</h5>
+        <p>{{ resume.skills }}</p>
+
+        <hr>
+
+        <h5>Education</h5>
+        <ul>
+            {% for e in resume.education %}
+                <li>
+                    <strong>{{ e.degree }}</strong> –
+                    {{ e.institute }} ({{ e.year }})
+                </li>
+            {% endfor %}
+        </ul>
+
+        <hr>
+
+        <h5>Experience</h5>
+        <ul>
+            {% for e in resume.experience %}
+                <li>
+                    <strong>{{ e.job }}</strong> – {{ e.company }}
+                    ({{ e.duration }})
+                    <br>
+                    <small>{{ e.description }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <hr>
+
+        <h5>Languages</h5>
+        <ul>
+            {% for l in resume.languages %}
+                <li>{{ l.language }} – {{ l.level }}</li>
+            {% endfor %}
+        </ul>
+
+        <hr>
+
+        <h5>Certifications</h5>
+        <ul>
+            {% for c in resume.certifications %}
+                <li>{{ c.name }} – {{ c.organization }} ({{ c.year }})</li>
+            {% endfor %}
+        </ul>
+
+        <hr>
+
+        <!-- Download PDF -->
+        <form method="get" action="/download-pdf/{{ resume_id }}">
+            <div class="mb-3">
+                <label class="form-label fw-bold">Select Resume Template</label>
+                <select name="template" class="form-select" required>
+                    {% for t in templates %}
+                        <option value="{{ t }}">{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button class="btn btn-primary w-100">
+                Download Resume PDF
+            </button>
+        </form>
+    </div>
 </div>
 
 </body>

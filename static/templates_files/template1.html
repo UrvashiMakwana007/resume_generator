@@ -5,7 +5,6 @@
 <title>Resume PDF</title>
 
 <style>
-    /* PDF PAGE SETUP */
     @page {
         size: A4;
         margin: 15mm;
@@ -48,13 +47,6 @@
         margin-bottom: 15px;
     }
 
-    .profile-img {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        margin-bottom: 10px;
-    }
-
     .box {
         border: 1px solid #000;
         padding: 10px;
@@ -79,34 +71,30 @@
 <td width="35%" valign="top" style="background:#f5f5f5; padding:20px;">
 
     <div class="profile-header">
-        <!-- Uncomment if using local image -->
-        <!-- <img src="profile.jpg" class="profile-img" alt="Profile"> -->
-        <h3>SMITH MATTHEW</h3>
-        <p>Web Developer</p>
+        <h3>{{ resume.name|upper }}</h3>
+        <p>{{ resume.summary[:60] }}...</p>
     </div>
 
     <div class="section">
         <h2>Contact</h2>
-        <p>Phone: +55 11 99999-9999</p>
-        <p>Email: user@gmail.com</p>
-        <p>Location: São Paulo, Brazil</p>
-        <p>Website: www.website.com</p>
+        <p>📞 {{ resume.phone }}</p>
+        <p>📧 {{ resume.email }}</p>
+        <p>📍 {{ resume.address }}</p>
+        <p>🌐 {{ resume.website }}</p>
     </div>
 
     <div class="section">
-        <h2>Expert Skills</h2>
-        <p>HTML</p>
-        <p>CSS</p>
-        <p>JavaScript</p>
-        <p>React</p>
-        <p>Firebase</p>
+        <h2>Skills</h2>
+        {% for skill in resume.skills.split(',') %}
+            <p>{{ skill.strip() }}</p>
+        {% endfor %}
     </div>
 
     <div class="section">
         <h2>Languages</h2>
-        <p>English - Advanced</p>
-        <p>Portuguese - Advanced</p>
-        <p>Spanish - Intermediate</p>
+        {% for lang in resume.languages %}
+            <p>{{ lang.language }} – {{ lang.level }}</p>
+        {% endfor %}
     </div>
 
 </td>
@@ -116,50 +104,37 @@
 
     <div class="box">
         <h3>01. Profile</h3>
-        <p>
-            Passionate web developer focused on clean UI, performance,
-            and accessibility. Experienced in responsive design and
-            modern web technologies.
-        </p>
+        <p>{{ resume.summary }}</p>
     </div>
 
     <div class="box">
         <h3>02. Education</h3>
-        <p><strong>Master of Design</strong></p>
-        <p>University of Studies (2010 – 2015)</p>
-
-        <br>
-
-        <p><strong>Web Development</strong></p>
-        <p>Studies Institute (2016 – 2019)</p>
+        {% for edu in resume.education %}
+            <p><strong>{{ edu.degree }}</strong></p>
+            <p>{{ edu.institute }} ({{ edu.year }})</p>
+            <br>
+        {% endfor %}
     </div>
 
     <div class="box">
         <h3>03. Experience</h3>
-        <p><strong>UI/UX Designer – Adobe</strong></p>
-        <p>2017 – 2019</p>
-        <p>
-            Designed wireframes, conducted usability testing,
-            and improved user experience across platforms.
-        </p>
-
-        <br>
-
-        <p><strong>Mobile Application Developer – Fitness Tech</strong></p>
-        <p>2019 – 2021</p>
-        <p>
-            Developed core app features including activity tracking
-            and nutrition logging.
-        </p>
+        {% for exp in resume.experience %}
+            <p><strong>{{ exp.job }} – {{ exp.company }}</strong></p>
+            <p>{{ exp.duration }}</p>
+            <p>{{ exp.description }}</p>
+            <br>
+        {% endfor %}
     </div>
 
     <div class="box">
-        <h3>04. Career Objective</h3>
-        <p>
-            To work in a challenging environment where I can apply
-            my skills and grow professionally while contributing
-            to impactful projects.
-        </p>
+        <h3>04. Certifications</h3>
+        {% for cert in resume.certifications %}
+            <p>
+                <strong>{{ cert.name }}</strong><br>
+                {{ cert.organization }} ({{ cert.year }})
+            </p>
+            <br>
+        {% endfor %}
     </div>
 
 </td>
